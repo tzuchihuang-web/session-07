@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Check-in | Digital Wellness</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Daily Check-in</h1>
+            <p class="subtitle">Take a moment to reflect</p>
+            <nav class="main-nav">
+                <a href="index.html" class="nav-link">← Back to Dashboard</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="check-in-form">
+                <div class="time-stamp">
+                    <h3>Check-in for <span id="current-date"></span></h3>
+                </div>
+
+                <div class="mood-energy-input">
+                    <h2>How are you feeling today?</h2>
+                    <div class="input-group">
+                        <div class="mood-tracker">
+                            <label>Mood</label>
+                            <div class="mood-buttons">
+                                <button class="mood-btn" data-mood="1">😔</button>
+                                <button class="mood-btn" data-mood="2">😐</button>
+                                <button class="mood-btn" data-mood="3">🙂</button>
+                                <button class="mood-btn" data-mood="4">😊</button>
+                                <button class="mood-btn" data-mood="5">😄</button>
+                            </div>
+                        </div>
+                        <div class="energy-tracker">
+                            <label>Energy Level</label>
+                            <input type="range" id="energy-level" min="1" max="10" value="5">
+                            <div class="energy-labels">
+                                <span>Low</span>
+                                <span>High</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reflection-prompt">
+                    <h2>Daily Reflection</h2>
+                    <div class="prompt-container">
+                        <textarea id="reflection-text" 
+                            placeholder="What influenced your digital habits today? How did your energy levels affect your focus?"></textarea>
+                        <button id="save-reflection" class="primary-button">Save Check-in</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="checkin.js"></script>
+</body>
+</html>

@@ -1,98 +1,49 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>數字相加計算器</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap');
-        body {
-            font-family: 'Noto Serif TC', serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #F7E8D0;
-            background-image: url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M50 50C50 77.6142 77.6142 50 50 50C22.3858 50 50 77.6142 50 50Z" fill="%23E7C697" fill-opacity="0.1"/%3E%3C/svg%3E');
-        }
-        .calculator {
-            background-color: #FFFFFF;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            border: 2px solid #C8102E;
-            position: relative;
-            max-width: 400px;
-            width: 90%;
-        }
-        .calculator::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border: 1px solid #BD9B60;
-            border-radius: 12px;
-            pointer-events: none;
-        }
-        h2 {
-            color: #C8102E;
-            text-align: center;
-            margin-bottom: 25px;
-            font-size: 24px;
-        }
-        input {
-            padding: 12px;
-            margin: 8px 0;
-            border: 2px solid #BD9B60;
-            border-radius: 8px;
-            width: 100%;
-            box-sizing: border-box;
-            font-family: 'Noto Serif TC', serif;
-            background-color: #FFF9F0;
-        }
-        input::placeholder {
-            color: #8B7355;
-        }
-        button {
-            padding: 12px 24px;
-            background-color: #C8102E;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 15px;
-            font-family: 'Noto Serif TC', serif;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-        button:hover {
-            background-color: #A00000;
-            transform: translateY(-2px);
-        }
-        .result-container {
-            margin-top: 20px;
-            text-align: center;
-            color: #4A4A4A;
-            font-size: 18px;
-            border-top: 1px solid #BD9B60;
-            padding-top: 15px;
-        }
-    </style>
+    <title>Digital Wellness Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="calculator">
-        <h2>數字相加計算器</h2>
-        <input type="number" id="num1" placeholder="請輸入第一個數字">
-        <input type="number" id="num2" placeholder="請輸入第二個數字">
-        <button onclick="addNumbers()">計算總和</button>
-        <div class="result-container">
-            <p>計算結果：<span id="result">-</span></p>
-        </div>
+    <div class="app-container">
+        <header>
+            <h1>Digital Wellness Dashboard</h1>
+            <p class="subtitle">Track, Reflect, and Grow</p>
+            <nav class="main-nav">
+                <a href="checkin.html" class="primary-button">+ New Check-in</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="calendar-view">
+                <h2>Your Weekly Pattern</h2>
+                <div class="calendar-grid" id="calendar-grid">
+                    <!-- Calendar will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <section class="insights-panel">
+                <h2>AI Insights</h2>
+                <div class="insights-container">
+                    <div class="pattern-card">
+                        <h3>Weekly Patterns</h3>
+                        <div id="pattern-content">
+                            <!-- Patterns will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Non-Judgmental Summary</h3>
+                        <div id="summary-content">
+                            <!-- Summary will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
-    <script src="script.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
