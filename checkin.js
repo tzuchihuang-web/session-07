@@ -9,14 +9,29 @@ let checkInState = {
 document.addEventListener('DOMContentLoaded', () => {
     initializeMoodTracker();
     initializeEnergyTracker();
-    updateCurrentDate();
+    initializeDatePicker();
 });
 
-// Update current date display
-function updateCurrentDate() {
-    const currentDate = new Date();
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    document.getElementById('current-date').textContent = currentDate.toLocaleDateString('en-US', options);
+// Initialize date picker
+function initializeDatePicker() {
+    const dateInput = document.getElementById('check-in-date');
+    
+    // Format today's date for the input
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    
+    // Set default value to today
+    dateInput.value = `${year}-${month}-${day}`;
+    
+    // Set max date to today (prevent future entries)
+    dateInput.max = `${year}-${month}-${day}`;
+    
+    // Update state when date changes
+    dateInput.addEventListener('change', (e) => {
+        checkInState.date = new Date(e.target.value);
+    });
 }
 
 // Mood Tracker Initialization
@@ -51,8 +66,11 @@ document.getElementById('save-reflection').addEventListener('click', () => {
     }
     
     if (reflectionText.trim()) {
+        // Get the selected date
+        const selectedDate = new Date(document.getElementById('check-in-date').value);
+        
         const checkIn = {
-            date: new Date(),
+            date: selectedDate.toISOString(), // Store as ISO string for consistency
             mood: checkInState.currentMood,
             energy: checkInState.energyLevel,
             text: reflectionText

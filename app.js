@@ -36,10 +36,24 @@ function getMoodEmoji(mood) {
 // Calendar Initialization
 function initializeCalendar() {
     const calendar = document.getElementById('calendar-grid');
+    const calendarSection = document.querySelector('.calendar-view');
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     
     // Clear existing content
     calendar.innerHTML = '';
+    
+    // Get current date info
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+    // Update calendar header with month and year
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                       'July', 'August', 'September', 'October', 'November', 'December'];
+    const calendarTitle = calendarSection.querySelector('h2');
+    calendarTitle.textContent = `${monthNames[currentMonth]} ${currentYear}`;
     
     // Create day headers
     days.forEach(day => {
@@ -48,13 +62,6 @@ function initializeCalendar() {
         dayHeader.textContent = day;
         calendar.appendChild(dayHeader);
     });
-
-    // Get current date info
-    const now = new Date();
-    const currentMonth = now.getMonth();
-    const currentYear = now.getFullYear();
-    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
     
     // Create day cells
     // Add empty cells for days before the first of the month
