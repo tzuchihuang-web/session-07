@@ -8,7 +8,79 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeCalendar();
     loadSavedData();
     updatePatternAnalysis();
+    
+    // Add event listener for storage changes (for real-time updates)
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'digitalWellnessData') {
+            loadSavedData();
+            initializeCalendar();
+            updatePatternAnalysis();
+        }
+    });
 });
+
+// Create popup for day data
+function createDayPopup(dayData) {
+    // Remove existing popup if any
+    const existingPopup = document.querySelector('.day-popup');
+    if (existingPopup) {
+        existingPopup.remove();
+    }
+
+    const popup = document.createElement('div');
+    popup.className = 'day-popup';
+    
+    const date = new Date(dayData.date);
+    const formattedDate = date.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+
+    popup.innerHTML = `
+        <div class="popup-header">
+            <h3>${formattedDate}</h3>
+            <button class="close-popup">×</button>
+        </div>
+        <div class="popup-content">
+            <div class="popup-mood">
+                <label>Mood:</label>
+                <span class="mood-emoji">${getMoodEmoji(dayData.mood)}</span>
+            </div>
+            <div class="popup-energy">
+                <label>Energy Level:</label>
+                <div class="energy-bar-container">
+                    <div class="energy-bar" style="width: ${dayData.energy * 10}%"></div>
+                    <span>${dayData.energy}/10</span>
+                </div>
+            </div>
+            <div class="popup-reflection">
+                <label>Reflection:</label>
+                <p>${dayData.text}</p>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(popup);
+
+    // Position popup
+    const rect = event.target.getBoundingClientRect();
+    popup.style.top = `${rect.bottom + window.scrollY + 10}px`;
+    popup.style.left = `${rect.left + window.scrollX}px`;
+
+    // Close popup when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!popup.contains(e.target) && !event.target.contains(e.target)) {
+            popup.remove();
+        }
+    });
+
+    // Close button functionality
+    popup.querySelector('.close-popup').addEventListener('click', () => {
+        popup.remove();
+    });
+}
 
 // Helper function to get data for a specific day
 function getDayData(date) {
@@ -91,9 +163,15 @@ function initializeCalendar() {
         if (dayData) {
             dataDiv.innerHTML = `
                 <div class="mood-indicator">${getMoodEmoji(dayData.mood)}</div>
-                <div class="energy-indicator" style="height: ${dayData.energy * 10}%"></div>
+                <div class="energy-bar-mini" style="width: ${dayData.energy * 10}%"></div>
             `;
-            dayCell.setAttribute('title', `Energy: ${dayData.energy}/10\n${dayData.text}`);
+            dayCell.classList.add('has-data');
+            
+            // Add click event for popup
+            dayCell.addEventListener('click', (event) => {
+                createDayPopup(dayData);
+                event.stopPropagation();
+            });
         }
         
         calendar.appendChild(dayCell);
@@ -255,8 +333,18 @@ function generateSummaryHTML(patterns) {
 function loadSavedData() {
     const savedData = localStorage.getItem('digitalWellnessData');
     if (savedData) {
-        appState = JSON.parse(savedData);
-        updatePatternAnalysis();
+        try {
+            appState = JSON.parse(savedData);
+            // Ensure dates are properly converted from strings
+            appState.reflections = appState.reflections.map(reflection => ({
+                ...reflection,
+                date: new Date(reflection.date)
+            }));
+            updatePatternAnalysis();
+        } catch (e) {
+            console.error('Error loading saved data:', e);
+            appState = { reflections: [] };
+        }
     }
 }
 
